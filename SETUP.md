@@ -71,9 +71,20 @@ python app.py
 ```
 
 #### Step 6: Access the Application
-- Portfolio: http://localhost:5000
-- Admin: http://localhost:5000/admin
-- Login: http://localhost:5000/login
+- Portfolio: http://localhost:3000
+- Admin: http://localhost:3000/admin
+- Login: http://localhost:3000/login
+
+**Note:** The default port is 3000. You can change it by setting the `PORT` environment variable:
+```bash
+# Windows
+set PORT=8080
+python app.py
+
+# macOS/Linux
+export PORT=8080
+python app.py
+```
 
 **Default Credentials:**
 - Username: `admin`
@@ -149,9 +160,15 @@ pip install -r requirements.txt
 ```
 
 ### Issue: Port already in use
-**Solution:** Use a different port:
+**Solution:** Use a different port by setting the PORT environment variable:
 ```bash
-flask run --port 5001
+# Windows
+set PORT=8080
+python app.py
+
+# macOS/Linux
+export PORT=8080
+python app.py
 ```
 
 ### Issue: Permission denied
@@ -175,7 +192,13 @@ flask run --port 5001
 
 ```bash
 pip install gunicorn
-gunicorn -w 4 -b 0.0.0.0:5000 app:app
+gunicorn -w 4 -b 0.0.0.0:${PORT:-3000} app:app
+```
+
+Or set the PORT environment variable:
+```bash
+export PORT=3000
+gunicorn -w 4 -b 0.0.0.0:$PORT app:app
 ```
 
 ### Environment Variables

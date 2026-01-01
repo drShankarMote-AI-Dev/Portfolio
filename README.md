@@ -102,7 +102,7 @@ Before you begin, ensure you have the following installed:
    python app.py
    ```
    
-   Then visit `http://localhost:5000` - the app will create default data structure.
+   Then visit `http://localhost:3000` - the app will create default data structure.
 
 6. **Set up admin credentials**
    
@@ -127,9 +127,14 @@ Before you begin, ensure you have the following installed:
    ```
 
 2. **Access the Application**
-   - Public Portfolio: `http://localhost:5000`
-   - Admin Dashboard: `http://localhost:5000/admin`
-   - Login Page: `http://localhost:5000/login`
+   - Public Portfolio: `http://localhost:3000`
+   - Admin Dashboard: `http://localhost:3000/admin`
+   - Login Page: `http://localhost:3000/login`
+   
+   **Note:** The default port is 3000, but you can change it by setting the `PORT` environment variable:
+   ```bash
+   PORT=8080 python app.py
+   ```
 
 ### Admin Dashboard
 
@@ -226,7 +231,13 @@ EMAIL_PASSWORD = 'your_app_password'
 3. **Use a Production WSGI Server**
    ```bash
    pip install gunicorn
-   gunicorn -w 4 -b 0.0.0.0:5000 app:app
+   gunicorn -w 4 -b 0.0.0.0:${PORT:-3000} app:app
+   ```
+   
+   Or set the PORT environment variable:
+   ```bash
+   export PORT=3000
+   gunicorn -w 4 -b 0.0.0.0:$PORT app:app
    ```
 
 ### Recommended Hosting Platforms

@@ -1264,8 +1264,9 @@ def log_admin_activity(action, section, details=None):
 
 if __name__ == '__main__':
     initialize_json_data()
+    port = int(os.environ.get("PORT", 3000))
     print("🚀 Portfolio application starting...")
-    print("📱 Portfolio: http://localhost:5000/")
-    print("🔐 Admin: http://localhost:5000/login")
+    print(f"📱 Portfolio: http://localhost:{port}/")
+    print(f"🔐 Admin: http://localhost:{port}/login")
     print("💡 Press CTRL+C to stop the server")
-    app.run(debug=True, use_reloader=False)
+    app.run(host="0.0.0.0", port=port)

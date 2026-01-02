@@ -124,7 +124,8 @@
         <p class="hero-subtitle">{{ data.about.hero_subtitle }}</p>
         <p class="hero-description">{{ data.about.hero_description }}</p>
         <div class="hero-socials">
-          <a href="{{ data.contact.linkedin }}" class="social-link linkedin" target="_blank" aria-label="LinkedIn">
+          {% if data.contact and data.contact.linkedin and data.contact.linkedin.strip() %}
+          <a href="{{ data.contact.linkedin }}" class="social-link linkedin" target="_blank" aria-label="LinkedIn" rel="noopener noreferrer">
             <!-- LinkedIn SVG -->
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
               <rect width="32" height="32" rx="8" fill="#0077B5" />
@@ -133,7 +134,9 @@
                 fill="#fff" />
             </svg>
           </a>
-          <a href="{{ data.contact.github }}" class="social-link github" target="_blank" aria-label="GitHub">
+          {% endif %}
+          {% if data.contact and data.contact.github and data.contact.github.strip() %}
+          <a href="{{ data.contact.github }}" class="social-link github" target="_blank" aria-label="GitHub" rel="noopener noreferrer">
             <!-- GitHub SVG -->
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
               <rect width="32" height="32" rx="8" fill="#181717" />
@@ -142,6 +145,8 @@
                 fill="#fff" />
             </svg>
           </a>
+          {% endif %}
+          {% if data.contact and data.contact.email and data.contact.email.strip() %}
           <a href="mailto:{{ data.contact.email }}" class="social-link email" aria-label="Email">
             <!-- Email SVG -->
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
@@ -151,7 +156,9 @@
                 fill="#fff" />
             </svg>
           </a>
-          <a href="tel:+91{{ data.contact.phone }}" class="social-link phone" aria-label="Phone">
+          {% endif %}
+          {% if data.contact and data.contact.phone and data.contact.phone.strip() %}
+          <a href="tel:{{ data.contact.phone }}" class="social-link phone" aria-label="Phone">
             <!-- Phone SVG -->
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
               <rect width="32" height="32" rx="8" fill="#34A853" />
@@ -160,6 +167,7 @@
                 fill="#fff" />
             </svg>
           </a>
+          {% endif %}
         </div>
         <div class="hero-cta">
           {% for button in data.about.hero_buttons %}

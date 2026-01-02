@@ -388,27 +388,49 @@
 </div>
 {% elif current_section == 'contact' %}
 <div class="admin-card">
-    <h2>Manage Contact Information</h2>
+    <h2>📧 Manage Contact Information</h2>
+    <p class="admin-info-text" style="margin-bottom: 20px;">
+        Manage your contact information that appears on the <strong>Hero Page</strong>. These links will be displayed as social icons in the hero section.
+    </p>
     <form method="POST">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="{{ contact_settings.email }}" required>
+            <label for="email">📧 Email Address:</label>
+            <input type="email" id="email" name="email" value="{{ contact_settings.email if contact_settings else '' }}" 
+                   placeholder="your.email@example.com" required>
+            <small style="display: block; margin-top: 0.5em; color: #aaa;">
+                Your email address. Clicking this on the hero page will open the default email client.
+            </small>
         </div>
         <div class="form-group">
-            <label for="phone">Phone:</label>
-            <input type="tel" id="phone" name="phone" value="{{ contact_settings.phone }}">
+            <label for="phone">📱 Phone Number:</label>
+            <input type="tel" id="phone" name="phone" value="{{ contact_settings.phone if contact_settings else '' }}" 
+                   placeholder="1234567890">
+            <small style="display: block; margin-top: 0.5em; color: #aaa;">
+                Your phone number (digits only, no spaces or dashes). Clicking this on the hero page will initiate a call.
+            </small>
         </div>
         <div class="form-group">
-            <label for="linkedin">LinkedIn URL:</label>
-            <input type="url" id="linkedin" name="linkedin" value="{{ contact_settings.linkedin }}">
+            <label for="linkedin">💼 LinkedIn Profile URL:</label>
+            <input type="url" id="linkedin" name="linkedin" value="{{ contact_settings.linkedin if contact_settings else '' }}" 
+                   placeholder="https://linkedin.com/in/yourprofile">
+            <small style="display: block; margin-top: 0.5em; color: #aaa;">
+                Your full LinkedIn profile URL. This will be displayed as a LinkedIn icon on the hero page.
+            </small>
         </div>
         <div class="form-group">
-            <label for="github">GitHub URL:</label>
-            <input type="url" id="github" name="github" value="{{ contact_settings.github }}">
+            <label for="github">🐙 GitHub Profile URL:</label>
+            <input type="url" id="github" name="github" value="{{ contact_settings.github if contact_settings else '' }}" 
+                   placeholder="https://github.com/yourusername">
+            <small style="display: block; margin-top: 0.5em; color: #aaa;">
+                Your full GitHub profile URL. This will be displayed as a GitHub icon on the hero page.
+            </small>
         </div>
-        <button type="submit" class="add-new-btn">Save Contact Settings</button>
+        <button type="submit" class="add-new-btn">💾 Save Contact Settings</button>
     </form>
+    <div style="margin-top: 20px; padding: 15px; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+        <strong>ℹ️ Note:</strong> All fields except email are optional. If a field is left empty, the corresponding icon will not appear on the hero page.
+    </div>
 </div>
 
 {% elif current_section == 'about' %}

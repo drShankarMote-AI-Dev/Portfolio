@@ -849,23 +849,50 @@ def admin_dashboard(section):
             if portfolio.get('is_active'):
                 active_portfolio = portfolio
                 break
-        context['contact_settings'] = (active_portfolio['contact'] if active_portfolio and 'contact' in active_portfolio else data['contact'])
+        
+        # Get contact settings from active portfolio or fallback to root data
+        if active_portfolio and 'contact' in active_portfolio:
+            context['contact_settings'] = active_portfolio['contact']
+        elif 'contact' in data:
+            context['contact_settings'] = data['contact']
+        else:
+            context['contact_settings'] = {
+                'email': '',
+                'phone': '',
+                'linkedin': '',
+                'github': ''
+            }
+        
         if request.method == 'POST':
+            email = request.form.get('email', '').strip()
+            phone = request.form.get('phone', '').strip()
+            linkedin = request.form.get('linkedin', '').strip()
+            github = request.form.get('github', '').strip()
+            
+            # Validate email if provided
+            if email and '@' not in email:
+                flash('Please enter a valid email address.', 'danger')
+                return redirect(url_for('admin_dashboard', section='contact'))
+            
+            # Ensure contact structure exists
             if active_portfolio:
                 if 'contact' not in active_portfolio:
                     active_portfolio['contact'] = {}
-                active_portfolio['contact']['email'] = request.form['email']
-                active_portfolio['contact']['phone'] = request.form.get('phone', '')
-                active_portfolio['contact']['linkedin'] = request.form.get('linkedin', '')
-                active_portfolio['contact']['github'] = request.form.get('github', '')
+                active_portfolio['contact']['email'] = email
+                active_portfolio['contact']['phone'] = phone
+                active_portfolio['contact']['linkedin'] = linkedin
+                active_portfolio['contact']['github'] = github
             else:
-                data['contact']['email'] = request.form['email']
-                data['contact']['phone'] = request.form.get('phone', '')
-                data['contact']['linkedin'] = request.form.get('linkedin', '')
-                data['contact']['github'] = request.form.get('github', '')
+                if 'contact' not in data:
+                    data['contact'] = {}
+                data['contact']['email'] = email
+                data['contact']['phone'] = phone
+                data['contact']['linkedin'] = linkedin
+                data['contact']['github'] = github
+            
             write_portfolio_data(data)
-            log_admin_activity('update', 'contact', f"email={request.form['email']}")
-            flash('Contact settings updated successfully!', 'success')
+            log_admin_activity('update', 'contact', f"email={email}, phone={phone[:3]}***, linkedin={linkedin[:20] if linkedin else 'none'}, github={github[:20] if github else 'none'}")
+            flash('Contact settings updated successfully! These changes will appear on the hero page.', 'success')
             return redirect(url_for('admin_dashboard', section='contact'))
 
     # --- ABOUT ---
